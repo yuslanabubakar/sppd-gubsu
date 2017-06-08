@@ -153,25 +153,25 @@
           <div class="box-header with-border">
             <h4 class="box-title">Pemberi Tugas : </h4>
           </div>
+		  <datalist id="listNIP">
+				<?php while ($row = mysqli_fetch_array($data)) { ?>
+				<option value = "<?php echo $row[0]; ?>">
+				<?php } ?>
+			</datalist>
           <div>
             <div class="form-group">
               <label for="inputNIP1" class="col-sm-2 control-label">  NIP</label>
 			
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputNIP1" placeholder="NIP" list="listNIP1" oninput = "myName1()" />
+                <input type="text" class="form-control" id="inputNIP1" placeholder="NIP" list="listNIP" oninput = "showJabatan(this.value)" />
               </div>
             </div>
 			
-			<datalist id="listNIP1">
-				<?php while ($row = mysqli_fetch_array($data)) { ?>
-				<option value = "<?php echo $row[0]; ?>">
-				<?php } ?>
-			</datalist>
             <div class="form-group">
-              <label for="inputNama1" class="col-sm-2 control-label">  Nama</label>
+              <label for="inputJabatan" class="col-sm-2 control-label">  Jabatan</label>
 				
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputNama1" placeholder="Nama" value="" disabled="">
+                <input type="text" class="form-control" id="inputJabatan" placeholder="Jabatan" value="" disabled="">
               </div>
             </div>
           </div>
@@ -182,14 +182,14 @@
             <label for="inputNIP2" class="col-sm-2 control-label">  NIP</label>
 
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputNIP2" placeholder="NIP">
+              <input type="text" class="form-control" id="inputNIP2" placeholder="NIP" list = "listNIP" oninput = "showNama(this.value)" />
             </div>
           </div>
           <div class="form-group">
-            <label for="inputNama2" class="col-sm-2 control-label">  Nama</label>
+            <label for="inputNama" class="col-sm-2 control-label">  Nama</label>
 
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputNama2" placeholder="Nama" disabled="">
+              <input type="text" class="form-control" id="inputNama" placeholder="Nama" value = "" disabled="">
             </div>
           </div>
           <div class="box-footer with-border">
@@ -481,6 +481,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 
+<!--
 <script>
 	function myName1() {
 		var nip = document.getElementById("inputNIP1").value;
@@ -488,6 +489,53 @@
 		var coba_js = <?php $coba = "<script>document.write(nip);</script>"; echo json_encode($coba); ?>;
 		document.getElementById("inputNama1").value = coba_js;
 	}
+</script>
+-->
+
+<script>
+function showJabatan(str) {
+    if (str == "") {
+        document.getElementById("inputJabatan").value = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("inputJabatan").value = this.responseText;
+            }
+        };
+        xmlhttp.open("GET","getJabatanKaryawan.php?q="+str,true);
+        xmlhttp.send();
+    }
+}
+
+function showNama(str) {
+    if (str == "") {
+        document.getElementById("inputNama").value = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("inputNama").value = this.responseText;
+            }
+        };
+        xmlhttp.open("GET","getNamaKaryawan.php?q="+str,true);
+        xmlhttp.send();
+    }
+}
 </script>
 
 </body>
