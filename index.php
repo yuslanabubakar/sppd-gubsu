@@ -35,6 +35,10 @@
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <link rel="stylesheet" type="text/css" href="daterangepicker.css" />
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -104,7 +108,15 @@
                 <input type="text" class="form-control" id="inputNIP1" placeholder="NIP" list="listNIP" oninput = "showJabatan(this.value)" />
               </div>
             </div>
-			
+			       
+            <div class="form-group">
+              <label for="inputNama" class="col-sm-2 control-label">  Nama</label>
+
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputNama" placeholder="Nama" value = "" disabled="">
+              </div>
+            </div>
+
             <div class="form-group">
               <label for="inputJabatan" class="col-sm-2 control-label">  Jabatan</label>
 				
@@ -113,9 +125,10 @@
               </div>
             </div>
           </div>
-            <div class="box-header with-border">
-              <h4 class="box-title">Pengemban Tugas : </h4>
-            </div>
+
+          <div class="box-header with-border">
+            <h4 class="box-title">Pengemban Tugas : </h4>
+          </div>
           <div class="form-group">
             <label for="inputNIP2" class="col-sm-2 control-label">  NIP</label>
 
@@ -130,6 +143,24 @@
               <input type="text" class="form-control" id="inputNama" placeholder="Nama" value = "" disabled="">
             </div>
           </div>
+
+          <div class="box-header with-border">
+            <h4 class="box-title">Anggaran : </h4>
+          </div>
+          <div class="form-group">
+            <label for="inputInstansi" class="col-sm-2 control-label">  Instansi</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputInstansi" placeholder="Instansi"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputAnggaran" class="col-sm-2 control-label">  Mata Anggaran</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputAnggaran" placeholder="Anggaran yang digunakan">
+            </div>
+          </div>
           <div class="box-footer"></div>
 
           <div class="form-group">
@@ -141,23 +172,22 @@
           </div>
 
           <div class="form-group">
+            <label for="inputTempat" class="col-sm-2 control-label">Tempat</label>
+
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputTempat" placeholder="Tempat Penugasan">
+            </div>
+          </div>
+
+          <div class="form-group">
             <label for="inputNIP2" class="col-sm-2 control-label">Rentang Waktu</label>
 
-            <div class="col-sm-5">
+            <div class="col-sm-9">
                 <div class="input-group col-sm-10">
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                <input type="date" name="daterange" value="" />
-                </div>
-            </div>
-            
-            <div class="col-sm-5">
-                <div class="input-group col-sm-10">
-                  <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </div>
-                <input type="date" name="daterange2" value="" />
+                <input type="text" name="daterange" value="" />
                 </div>
             </div>
           </div>
@@ -182,14 +212,6 @@
               </div>  
           </div>
 
-
-          <div class="form-group">
-            <label for="inputTempat" class="col-sm-2 control-label">Tempat</label>
-
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputTempat" placeholder="Tempat Penugasan">
-            </div>
-          </div>
           <div class="form-group">
             <label for="keterangan" class="col-sm-2 control-label">Keterangan</label>
 
@@ -278,6 +300,24 @@
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 
+<script type="text/javascript" src="moment.min.js"></script>
+
+<script type="text/javascript" src="daterangepicker.js"></script>
+
+<script>
+  $('input[name="daterange"]').daterangepicker(
+  {
+      locale: {
+        format: 'DD-MM-YYYY'
+      },
+      startDate: '01-01-2017',
+      endDate: '12-12-2020'
+  }, 
+  function(start, end, label) {
+      alert("A new date range was chosen: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+  });
+</script>
+
 <!--
 <script>
 	function myName1() {
@@ -289,7 +329,7 @@
 </script>
 -->
 
-<script>
+<!--<script>
   $(function () {
     //Initialize Select2 Elements
     $(".select2").select2();
@@ -356,6 +396,8 @@
     });
   });
 </script>
+-->
+
 <script>
 function showJabatan(str) {
     if (str == "") {
