@@ -90,7 +90,7 @@
     </section>
   <div class="col-md-9">
     <div class="box box-info">
-      <form class="form-horizontal">
+      <form action="input_data.php" class="form-horizontal">
         <div class="box-body">
           <div class="box-header with-border">
             <h4 class="box-title">Pemberi Tugas : </h4>
@@ -105,7 +105,7 @@
               <label for="inputNIP1" class="col-sm-2 control-label">  NIP</label>
 			
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputNIP1" placeholder="NIP" list="listNIP" oninput = "showJabatan(this.value)" />
+                <input type="text" class="form-control" id="inputNIP1" placeholder="NIP" list="listNIP" oninput = "showNama1(this.value)"/>
               </div>
             </div>
 			       
@@ -133,14 +133,14 @@
             <label for="inputNIP2" class="col-sm-2 control-label">  NIP</label>
 
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputNIP2" placeholder="NIP" list = "listNIP" oninput = "showNama(this.value)" />
+              <input type="text" class="form-control" id="inputNIP2" placeholder="NIP" list = "listNIP" oninput = "showNama2(this.value)" />
             </div>
           </div>
           <div class="form-group">
             <label for="inputNama" class="col-sm-2 control-label">  Nama</label>
 
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inputNama" placeholder="Nama" value = "" disabled="">
+              <input type="text" class="form-control" id="inputNama2" placeholder="Nama" value = "" disabled="">
             </div>
           </div>
 
@@ -315,88 +315,12 @@
   }, 
   function(start, end, label) {
       alert("A new date range was chosen: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+	  day = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+	  document.getElementById("inputWaktu").value = day + " hari";
   });
 </script>
 
-<!--
-<script>
-	function myName1() {
-		var nip = document.getElementById("inputNIP1").value;
-		var nama = <?php $nama = 'yuslan'; echo json_encode($nama); ?>;
-		var coba_js = <?php $coba = "<script>document.write(nip);</script>"; echo json_encode($coba); ?>;
-		document.getElementById("inputNama1").value = coba_js;
-	}
-</script>
--->
 
-<!--<script>
-  $(function () {
-    //Initialize Select2 Elements
-    $(".select2").select2();
-
-    //Datemask dd/mm/yyyy
-    $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
-    //Datemask2 mm/dd/yyyy
-    $("#datemask2").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-    //Money Euro
-    $("[data-mask]").inputmask();
-
-    //Date range picker
-    $('#reservation').daterangepicker();
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-        {
-          ranges: {
-            'Today': [moment(), moment()],
-            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-          },
-          startDate: moment().subtract(29, 'days'),
-          endDate: moment()
-        },
-        function (start, end) {
-          $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        }
-    );
-
-    //Date picker
-    $('#datepicker').datepicker({
-      autoclose: true
-    });
-
-    //iCheck for checkbox and radio inputs
-    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-      checkboxClass: 'icheckbox_minimal-blue',
-      radioClass: 'iradio_minimal-blue'
-    });
-    //Red color scheme for iCheck
-    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
-      checkboxClass: 'icheckbox_minimal-red',
-      radioClass: 'iradio_minimal-red'
-    });
-    //Flat red color scheme for iCheck
-    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-      checkboxClass: 'icheckbox_flat-green',
-      radioClass: 'iradio_flat-green'
-    });
-
-    //Colorpicker
-    $(".my-colorpicker1").colorpicker();
-    //color picker with addon
-    $(".my-colorpicker2").colorpicker();
-
-    //Timepicker
-    $(".timepicker").timepicker({
-      showInputs: false
-    });
-  });
-</script>
--->
 
 <script>
 function showJabatan(str) {
@@ -421,9 +345,10 @@ function showJabatan(str) {
     }
 }
 
-function showNama(str) {
+function showNama1(str) {
     if (str == "") {
         document.getElementById("inputNama").value = "";
+		document.getElementById("inputJabatan").value = "";
         return;
     } else { 
         if (window.XMLHttpRequest) {
@@ -436,6 +361,29 @@ function showNama(str) {
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("inputNama").value = this.responseText;
+				showJabatan(str);
+            }
+        };
+        xmlhttp.open("GET","getNamaKaryawan.php?q="+str,true);
+        xmlhttp.send();
+    }
+}
+
+function showNama2(str) {
+    if (str == "") {
+        document.getElementById("inputNama2").value = "";
+        return;
+    } else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("inputNama2").value = this.responseText;
             }
         };
         xmlhttp.open("GET","getNamaKaryawan.php?q="+str,true);
